@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import Modal from './Modal';
 import './index.css';
 
   function Square(props) {
@@ -54,9 +55,18 @@ import './index.css';
           }],
           stepNumber: 0,
           xIsNext: true,
+          isEnded: false
         };
     }
     
+    onRestart = (closeOpen) => {
+        this.setState({
+            isEnded: closeOpen
+        })
+        console.log(this.state.isEnded)
+        window.location.reload(false);
+    }
+
     jumpTo(step) {
         this.setState({
           stepNumber: step,
@@ -119,6 +129,12 @@ import './index.css';
             <div>{status}</div>
             <ol>{moves}</ol>
           </div>
+
+          <Modal
+            isEnded={winner}
+            onRestart={() => this.onRestart(false)}
+            >{status}</Modal>
+        
         </div>
       );
     }
