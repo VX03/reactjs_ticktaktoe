@@ -67,6 +67,12 @@ import './index.css';
         window.location.reload(false);
     }
 
+    setIsEnded = (closeOpen) => {
+        this.setState({
+            isEnded: closeOpen
+        })
+    }
+
     jumpTo(step) {
         this.setState({
           stepNumber: step,
@@ -83,7 +89,7 @@ import './index.css';
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
-        
+
         squares[i] = this.state.xIsNext ? 'X' : 'O';
 
         this.setState({
@@ -114,7 +120,11 @@ import './index.css';
     let status;
     if (winner) {
       status = 'Winner: ' + winner;
-    } else {
+    } 
+    else if(this.state.stepNumber === 9) {
+      status = "No one won ;("
+    }
+    else {
       status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
       return (
@@ -131,7 +141,7 @@ import './index.css';
           </div>
 
           <Modal
-            isEnded={winner}
+            isEnded={winner || this.state.stepNumber === 9}
             onRestart={() => this.onRestart(false)}
             >{status}</Modal>
         
@@ -153,11 +163,14 @@ import './index.css';
       [2, 4, 6],
     ];
     for (let i = 0; i < lines.length; i++) {
-      const [a, b, c] = lines[i];
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            console.log(squares)
+            return squares[a];
+        }
     }
+
+    
     return null;
   }
   // ========================================
